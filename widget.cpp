@@ -1,6 +1,5 @@
 #include <QGridLayout>
 #include <QLineEdit>
-#include <QPushButton>
 #include "widget.h"
 #include "ui_widget.h"
 
@@ -25,8 +24,8 @@ Widget::~Widget()
 
 QGroupBox* Widget::createOutputGroup() {
     QGroupBox *groupBox = new QGroupBox(tr("输出"));
-    QLineEdit *output = new QLineEdit(QString("0"));
     QVBoxLayout *vbox = new QVBoxLayout;
+    output->setReadOnly(true);
     vbox->addWidget(output,0,0);
     groupBox->setLayout(vbox);
     return groupBox;
@@ -44,24 +43,6 @@ QGroupBox* Widget::createIntputGroup() {
 }
 
 QLayout* Widget::createNumberGroup() {
-   QPushButton *buttonMC = new QPushButton(tr("MC"));
-   QPushButton *buttonMR = new QPushButton(tr("MR"));
-   QPushButton *buttonMS = new QPushButton(tr("MS"));
-   QPushButton *buttonMT = new QPushButton(tr("MT"));
-
-   QPushButton *button0 = new QPushButton(tr("0"));
-   QPushButton *button1 = new QPushButton(tr("1"));
-   QPushButton *button2 = new QPushButton(tr("2"));
-   QPushButton *button3 = new QPushButton(tr("3"));
-
-   QPushButton *button4 = new QPushButton(tr("4"));
-   QPushButton *button5 = new QPushButton(tr("5"));
-   QPushButton *button6 = new QPushButton(tr("6"));
-   QPushButton *button7 = new QPushButton(tr("7"));
-   QPushButton *button8 = new QPushButton(tr("8"));
-   QPushButton *button9 = new QPushButton(tr("9"));
-   QPushButton *buttondot = new QPushButton(tr("."));
-   QPushButton *buttonNull = new QPushButton(tr(" "));
    QGridLayout *box = new QGridLayout;
    box->addWidget(buttonMC,0,0);box->addWidget(button7,0,1);
    box->addWidget(button8,0,2);box->addWidget(button9,0,3);
@@ -74,29 +55,56 @@ QLayout* Widget::createNumberGroup() {
 
    box->addWidget(buttonMT,3,0);box->addWidget(button0,3,1);
    box->addWidget(buttondot,3,2);box->addWidget(buttonNull,3,3);
+
+   connect(button0, SIGNAL(clicked()), this, SLOT(OnClicked0()));
+   connect(button1, SIGNAL(clicked()), this, SLOT(OnClicked1()));
+   connect(button2, SIGNAL(clicked()), this, SLOT(OnClicked2()));
    return box;
 }
 
 QLayout* Widget::createOperatorGroup() {
    QGridLayout *grid = new QGridLayout;
-   QPushButton *button0 = new QPushButton(tr("/"));
-   QPushButton *button1 = new QPushButton(tr("c"));
-   QPushButton *button2 = new QPushButton(tr("×"));
-   QPushButton *button3 = new QPushButton(tr("÷"));
-
-   QPushButton *button4 = new QPushButton(tr("-"));
-   QPushButton *button5 = new QPushButton(tr("+"));
-   QPushButton *button6 = new QPushButton(tr("="));
    QGridLayout *box1 = new QGridLayout;
-   box1->addWidget(button0,0,0);
-   box1->addWidget(button1,0,1);
-   box1->addWidget(button2,1,0);
-   box1->addWidget(button3,1,1);
-   box1->addWidget(button4,2,0);
-   box1->addWidget(button5,2,1);
+   box1->addWidget(button0_o,0,0);
+   box1->addWidget(button1_o,0,1);
+   box1->addWidget(button2_o,1,0);
+   box1->addWidget(button3_o,1,1);
+   box1->addWidget(button4_o,2,0);
+   box1->addWidget(button5_o,2,1);
    QGridLayout *box2 = new QGridLayout;
-   box2->addWidget(button6,0,0);
+   box2->addWidget(button6_o,0,0);
    grid->addLayout(box1,0,0);
    grid->addLayout(box2,1,0);
+
+   connect(button5_o, SIGNAL(clicked()), this, SLOT(OnClicked5_0()));
+   connect(button6_o, SIGNAL(clicked()), this, SLOT(OnClicked6_0()));
    return grid;
+}
+
+void Widget::OnClicked0() {
+   content.append('0');
+   output->setText(content);
+}
+
+void Widget::OnClicked1() {
+    content.append('1');
+    output->setText(content);
+}
+
+void Widget::OnClicked2() {
+    content.append('2');
+    output->setText(content);
+}
+
+void Widget::OnClicked5_0() {
+    content.append('+');
+    output->setText(content);
+}
+
+void Widget::OnClicked6_0() {
+    for(int i=0;i<content.size();i++) {
+
+    }
+    result="3";
+    output->setText(result);
 }
